@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+  <title>Comment</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      template: `  
+    <div class="container">
+    <h1>Comments</h1>
+    <hr />
+    <div class="form-todo form-group">
+      <p>
+        <input placeholder="Name" type="text" name="author" class="form-control" v-model="name" />
+      </p>
+      <p>
+        <textarea placeholder="Message" name="message" class="form-control" style="resize: none" v-model="message" maxlength="150" />
+        <div style="text-align: right">{{ message.length }}</div>
+      </p>
+
+      <p style="text-align: center">
+      <button v-on:click="addComment" type="submit" class="btn btn-primary">Post</button>
+      </p> 
+    </div>
+    <p>
+    <div class="list-group">
+      <div class="list-group-item" v-for="(comment, index) in comments">
+        <span class="comment__author">Author: <strong> {{ comment.name }}</strong></span>
+  
+        <button class="btn btn-danger btn-sm" style="float: right" title="Excluir" v-on:click="removeComment(index)">Delete</button>
+        
+        <p>{{ comment.message }}</p>
+      </div>
+    </div>
+    <hr />
+  </div>
+  `,
+      data() {
+        return {
+          comments: [],
+          name: "",
+          message: ""
+        }
+      },
+      methods: {
+        addComment() {
+          let blank = "";
+          if (this.name.trim() === blank || this.message.trim() === blank) {
+            return;
+          }
+          this.comments.push({
+            name: this.name,
+            message: this.message
+          });
+
+          this.name = "";
+          this.message = "";
+        },
+        removeComment(index) {
+          this.comments.splice(index, 1);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
